@@ -14,18 +14,11 @@ public class KeyHandler implements KeyListener {
     public void keyPressed(KeyEvent keyEvent) {
         int code = keyEvent.getKeyCode();
         switch (code){
-            case KeyEvent.VK_W -> {
-                up = true;
-            }
-            case KeyEvent.VK_S -> {
-                down = true;
-            }
-            case KeyEvent.VK_A -> {
-                left = true;
-            }
-            case KeyEvent.VK_D -> {
-                right = true;
-            }
+            case KeyEvent.VK_W -> up = true;
+            case KeyEvent.VK_S -> down = true;
+            case KeyEvent.VK_A -> left = true;
+            case KeyEvent.VK_D -> right = true;
+            default -> throw new IllegalStateException("Unexpected value: " + code);
         }
     }
 
