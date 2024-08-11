@@ -19,13 +19,14 @@ public class Player extends Entity{
         this.keyHandler = keyHandler;
         this.screenX = gamePanel.screenWidth/2 - (gamePanel.tileSize/2);
         this.screenY = gamePanel.screenHeight/2 - (gamePanel.tileSize/2);
+        solidArea = new Rectangle(10, 16, 30,32);
         reset();
         loadImages();
     }
 
     public void reset(){
-        this.worldX = gamePanel.tileSize * 0;
-        this.worldY = gamePanel.tileSize * 0;
+        this.worldX = gamePanel.tileSize * 25;
+        this.worldY = gamePanel.tileSize * 25;
         this.speed = 5;
         this.direction = "down";
         this.spriteNumber = 1;
@@ -33,25 +34,41 @@ public class Player extends Entity{
     }
 
     public void update(){
+
         if (!(keyHandler.up || keyHandler.down || keyHandler.left || keyHandler.right )){
             return;
         }
         if(keyHandler.up){
             direction = "up";
-            this.worldY -= this.speed;
         }
         if(keyHandler.down){
             direction = "down";
-            this.worldY += this.speed;
         }
         if(keyHandler.left){
             direction = "left";
-            this.worldX -= this.speed;
         }
         if(keyHandler.right){
             direction = "right";
-            this.worldX += this.speed;
         }
+        this.collisionOn = false;
+        gamePanel.collisionChecker.checkTile(this);
+        if(!this.collisionOn) {
+            switch (direction) {
+                case "up":
+                    this.worldY -= this.speed;
+                    break;
+                case "down":
+                    this.worldY += this.speed;
+                    break;
+                case "left":
+                    this.worldX -= this.speed;
+                    break;
+                case "right":
+                    this.worldX += this.speed;
+                    break;
+            }
+        }
+
         this.frameCounter++;
         if(this.frameCounter > 10){
             this.frameCounter = 0;

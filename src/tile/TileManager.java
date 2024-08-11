@@ -33,7 +33,6 @@ public class TileManager {
             if (inputStream != null) {
                 reader = new BufferedReader(new InputStreamReader(inputStream));
             }
-            // TODO: read the whole file instead of 16x16
             int col = 0;
             int row = 0;
             while (row < gamePanel.maxWorldRow) {
@@ -60,15 +59,18 @@ public class TileManager {
             tiles[i] = new Tile(tileTypes[this.map[x][y]], x, y, gamePanel.tileSize);
         }
     }
+    public Tile getTile(int index){
+
+        return this.tiles[index];
+    }
 
     public void draw(Graphics2D graphics2D) {
         for (int i = 0; i < tiles.length; i++) {
             int worldX = tiles[i].x * gamePanel.tileSize;
             int worldY = tiles[i].y * gamePanel.tileSize;
-            //TODO: some oop pls
             if(gamePanel.inPlayerView(worldX, worldY)){
-                int[] position = gamePanel.translateToScreenView(worldX, worldY);
-                tiles[i].draw(graphics2D, position[0], position[1]);
+                int[] position = gamePanel.translateToScreenView(worldX , worldY);
+                tiles[i].draw(graphics2D, position[0], position[1] );
             }
       }
     }

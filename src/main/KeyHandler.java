@@ -18,7 +18,6 @@ public class KeyHandler implements KeyListener {
             case KeyEvent.VK_S -> down = true;
             case KeyEvent.VK_A -> left = true;
             case KeyEvent.VK_D -> right = true;
-            default -> throw new IllegalStateException("Unexpected value: " + code);
         }
     }
 

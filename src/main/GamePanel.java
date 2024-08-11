@@ -30,12 +30,12 @@ public class GamePanel extends JPanel implements Runnable{
 
     public final int maxWorldHeight = tileSize * maxWorldRow;
     public final int maxWorldWidth = tileSize * maxWorldCol;
-
-
+//TODO OOPs
+    public CollisionChecker collisionChecker;
     Thread gameThread;
     KeyHandler keyHandler;
 
-    TileManager tileManager;
+    public TileManager tileManager;
     public Player player;
 
     public GamePanel() {
@@ -47,6 +47,7 @@ public class GamePanel extends JPanel implements Runnable{
         this.setFocusable(true);
         this.tileManager = new TileManager(this);
         this.player = new Player(this, this.keyHandler);
+        this.collisionChecker = new CollisionChecker(this);
     }
 
     public void startGameThread() {
@@ -87,6 +88,13 @@ public class GamePanel extends JPanel implements Runnable{
         return inH && inV;
     }
 
+    public boolean isCollisionOn(int worldX, int worldY){
+        int x = worldX/this.tileSize;
+        int y = worldY/this.tileSize;
+        int index = (y*maxWorldRow)+x;
+        if(index < 0) return true;
+        return this.tileManager.getTile(index).collision;
+    }
 
     public void update(){
         this.player.update();
