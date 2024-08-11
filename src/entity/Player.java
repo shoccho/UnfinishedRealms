@@ -1,6 +1,6 @@
 package entity;
 
-import main.GamePanel;
+import main.Game;
 import main.KeyHandler;
 
 import javax.imageio.ImageIO;
@@ -9,24 +9,24 @@ import java.awt.image.BufferedImage;
 import java.lang.reflect.Field;
 
 public class Player extends Entity{
-    GamePanel gamePanel;
+    Game game;
     KeyHandler keyHandler;
     public final int screenX;
     public final int screenY;
 
-    public Player(GamePanel gamePanel, KeyHandler keyHandler){
-        this.gamePanel = gamePanel;
+    public Player(Game game, KeyHandler keyHandler){
+        this.game = game;
         this.keyHandler = keyHandler;
-        this.screenX = gamePanel.screenWidth/2 - (gamePanel.tileSize/2);
-        this.screenY = gamePanel.screenHeight/2 - (gamePanel.tileSize/2);
+        this.screenX = game.screenWidth/2 - (game.tileSize/2);
+        this.screenY = game.screenHeight/2 - (game.tileSize/2);
         solidArea = new Rectangle(10, 16, 30,32);
         reset();
         loadImages();
     }
 
     public void reset(){
-        this.worldX = gamePanel.tileSize * 25;
-        this.worldY = gamePanel.tileSize * 25;
+        this.worldX = game.tileSize * 25;
+        this.worldY = game.tileSize * 25;
         this.speed = 5;
         this.direction = "down";
         this.spriteNumber = 1;
@@ -51,7 +51,7 @@ public class Player extends Entity{
             direction = "right";
         }
         this.collisionOn = false;
-        gamePanel.collisionChecker.checkTile(this);
+        game.collisionChecker.checkTile(this);
         if(!this.collisionOn) {
             switch (direction) {
                 case "up":
@@ -76,7 +76,7 @@ public class Player extends Entity{
         }
     }
     public void draw(Graphics2D graphics2D){
-        graphics2D.drawImage(getImage(), this.screenX, this.screenY, gamePanel.tileSize, gamePanel.tileSize, null);
+        graphics2D.drawImage(getImage(), this.screenX, this.screenY, game.tileSize, game.tileSize, null);
     }
 
     public void loadImages(){

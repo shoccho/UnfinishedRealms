@@ -9,7 +9,7 @@ import javax.swing.JPanel;
 
 import static java.lang.Math.abs;
 
-public class GamePanel extends JPanel implements Runnable{
+public class Game extends JPanel implements Runnable{
 
     //settings
     final int originalTileSize = 16; // tile res 16x16 px tiles
@@ -38,7 +38,7 @@ public class GamePanel extends JPanel implements Runnable{
     public TileManager tileManager;
     public Player player;
 
-    public GamePanel() {
+    public Game() {
         this.setPreferredSize(new Dimension(screenWidth, screenHeight));
         this.setBackground(Color.DARK_GRAY);
         this.setDoubleBuffered(true);

@@ -1,6 +1,6 @@
 package tile;
 
-import main.GamePanel;
+import main.Game;
 
 import java.awt.*;
 import java.io.BufferedReader;
@@ -11,17 +11,17 @@ import java.io.InputStreamReader;
 import static java.lang.Math.abs;
 
 public class TileManager {
-    GamePanel gamePanel;
+    Game game;
     int[][] map;
     Tile[] tiles;
     String[] tileTypes;
 
-    public TileManager(GamePanel gamePanel) {
-        this.gamePanel = gamePanel;
+    public TileManager(Game game) {
+        this.game = game;
         tileTypes = new String[]{"grass", "water", "earth", "sand", "wall", "tree"};
-        int totalTiles = gamePanel.maxWorldCol * gamePanel.maxWorldRow;
+        int totalTiles = game.maxWorldCol * game.maxWorldRow;
         this.tiles = new Tile[totalTiles];
-        this.map = new int[gamePanel.maxWorldCol][gamePanel.maxWorldRow];
+        this.map = new int[game.maxWorldCol][game.maxWorldRow];
         loadMap("/maps/map02.txt");
         loadTiles();
     }
@@ -35,10 +35,10 @@ public class TileManager {
             }
             int col = 0;
             int row = 0;
-            while (row < gamePanel.maxWorldRow) {
+            while (row < game.maxWorldRow) {
                 String line = reader.readLine();
                 String[] numbers = line.split(" ");
-                while (col < gamePanel.maxWorldCol) {
+                while (col < game.maxWorldCol) {
                     int num = Integer.parseInt(numbers[col]);
                     map[col][row] = num;
                     col++;
@@ -54,9 +54,9 @@ public class TileManager {
 
     public void loadTiles() {
         for (int i = 0; i < tiles.length; i++) {
-            int x = i % gamePanel.maxWorldCol;
-            int y = i / gamePanel.maxWorldRow;
-            tiles[i] = new Tile(tileTypes[this.map[x][y]], x, y, gamePanel.tileSize);
+            int x = i % game.maxWorldCol;
+            int y = i / game.maxWorldRow;
+            tiles[i] = new Tile(tileTypes[this.map[x][y]], x, y, game.tileSize);
         }
     }
     public Tile getTile(int index){
@@ -66,10 +66,10 @@ public class TileManager {
 
     public void draw(Graphics2D graphics2D) {
         for (int i = 0; i < tiles.length; i++) {
-            int worldX = tiles[i].x * gamePanel.tileSize;
-            int worldY = tiles[i].y * gamePanel.tileSize;
-            if(gamePanel.inPlayerView(worldX, worldY)){
-                int[] position = gamePanel.translateToScreenView(worldX , worldY);
+            int worldX = tiles[i].x * game.tileSize;
+            int worldY = tiles[i].y * game.tileSize;
+            if(game.inPlayerView(worldX, worldY)){
+                int[] position = game.translateToScreenView(worldX , worldY);
                 tiles[i].draw(graphics2D, position[0], position[1] );
             }
       }

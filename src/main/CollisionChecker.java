@@ -1,13 +1,12 @@
 package main;
 
 import entity.Entity;
-import tile.Tile;
 
 public class CollisionChecker {
-    GamePanel gamePanel;
+    Game game;
 
-    public CollisionChecker(GamePanel gamePanel) {
-        this.gamePanel = gamePanel;
+    public CollisionChecker(Game game) {
+        this.game = game;
     }
 
     public void checkTile(Entity entity) {
@@ -34,7 +33,7 @@ public class CollisionChecker {
     }
 
     private boolean checkCollision(int x1, int y1, int x2, int y2) {
-        return (this.gamePanel.isCollisionOn(x1, y1) || this.gamePanel.isCollisionOn(x2, y2));
+        return (this.game.isCollisionOn(x1, y1) || this.game.isCollisionOn(x2, y2));
     }
 }
 

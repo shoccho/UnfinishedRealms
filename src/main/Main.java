@@ -10,14 +10,14 @@ public class Main {
         window.setResizable(false);
         window.setTitle("Phun Gaem");
 
-        GamePanel gamePanel = new GamePanel();
-        window.add(gamePanel);
+        Game game = new Game();
+        window.add(game);
 
         window.pack();
 
         window.setLocationRelativeTo(null);
         window.setVisible(true);
-        gamePanel.startGameThread();
+        game.startGameThread();
     }
 
 }
