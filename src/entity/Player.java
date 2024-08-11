@@ -11,21 +11,25 @@ import java.lang.reflect.Field;
 public class Player extends Entity{
     GamePanel gamePanel;
     KeyHandler keyHandler;
+    public final int screenX;
+    public final int screenY;
 
     public Player(GamePanel gamePanel, KeyHandler keyHandler){
         this.gamePanel = gamePanel;
         this.keyHandler = keyHandler;
+        this.screenX = gamePanel.screenWidth/2 - (gamePanel.tileSize/2);
+        this.screenY = gamePanel.screenHeight/2 - (gamePanel.tileSize/2);
         reset();
+        loadImages();
     }
 
     public void reset(){
-        this.x = 100;
-        this.y = 100;
+        this.worldX = gamePanel.tileSize * 0;
+        this.worldY = gamePanel.tileSize * 0;
         this.speed = 5;
         this.direction = "down";
         this.spriteNumber = 1;
         this.frameCounter = 0;
-        loadImages();
     }
 
     public void update(){
@@ -34,19 +38,19 @@ public class Player extends Entity{
         }
         if(keyHandler.up){
             direction = "up";
-            this.y -= this.speed;
+            this.worldY -= this.speed;
         }
         if(keyHandler.down){
             direction = "down";
-            this.y += this.speed;
+            this.worldY += this.speed;
         }
         if(keyHandler.left){
             direction = "left";
-            this.x -= this.speed;
+            this.worldX -= this.speed;
         }
         if(keyHandler.right){
             direction = "right";
-            this.x += this.speed;
+            this.worldX += this.speed;
         }
         this.frameCounter++;
         if(this.frameCounter > 10){
@@ -55,19 +59,19 @@ public class Player extends Entity{
         }
     }
     public void draw(Graphics2D graphics2D){
-        graphics2D.drawImage(getImage(), this.x, this.y, gamePanel.tileSize, gamePanel.tileSize, null);
+        graphics2D.drawImage(getImage(), this.screenX, this.screenY, gamePanel.tileSize, gamePanel.tileSize, null);
     }
 
     public void loadImages(){
         try {
-            this.up1 = ImageIO.read(getClass().getResourceAsStream("/player/boy_up_1.png"));
-            this.up2 = ImageIO.read(getClass().getResourceAsStream("/player/boy_up_2.png"));
-            this.down1 = ImageIO.read(getClass().getResourceAsStream("/player/boy_down_1.png"));
-            this.down2 = ImageIO.read(getClass().getResourceAsStream("/player/boy_down_2.png"));
-            this.left1 = ImageIO.read(getClass().getResourceAsStream("/player/boy_left_1.png"));
-            this.left2 = ImageIO.read(getClass().getResourceAsStream("/player/boy_left_2.png"));
-            this.right1 = ImageIO.read(getClass().getResourceAsStream("/player/boy_right_1.png"));
-            this.right2 = ImageIO.read(getClass().getResourceAsStream("/player/boy_right_2.png"));
+            this.up1 = ImageIO.read(getClass().getResourceAsStream("/player/player_up_1.png"));
+            this.up2 = ImageIO.read(getClass().getResourceAsStream("/player/player_up_2.png"));
+            this.down1 = ImageIO.read(getClass().getResourceAsStream("/player/player_down_1.png"));
+            this.down2 = ImageIO.read(getClass().getResourceAsStream("/player/player_down_2.png"));
+            this.left1 = ImageIO.read(getClass().getResourceAsStream("/player/player_left_1.png"));
+            this.left2 = ImageIO.read(getClass().getResourceAsStream("/player/player_left_2.png"));
+            this.right1 = ImageIO.read(getClass().getResourceAsStream("/player/player_right_1.png"));
+            this.right2 = ImageIO.read(getClass().getResourceAsStream("/player/player_right_2.png"));
         }catch (Exception e){
             e.printStackTrace();
         }

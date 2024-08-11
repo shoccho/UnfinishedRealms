@@ -7,6 +7,8 @@ import java.awt.*;
 
 import javax.swing.JPanel;
 
+import static java.lang.Math.abs;
+
 public class GamePanel extends JPanel implements Runnable{
 
     //settings
@@ -15,18 +17,26 @@ public class GamePanel extends JPanel implements Runnable{
 
     public final int tileSize = originalTileSize * scale;
 
-    public final int maxScreenCol = 16;
-    public final int maxScreenRow = 16;
+    public final int maxScreenCol = 20;
+    public final int maxScreenRow = 20;
 
-    int screenWidth = tileSize * maxScreenCol;
-    int screenHeight = tileSize * maxScreenRow;
+    public int screenWidth = tileSize * maxScreenCol;
+    public int screenHeight = tileSize * maxScreenRow;
     int FPS = 60;
+
+    //world settings
+    public final int maxWorldCol = 50;
+    public final int maxWorldRow = 50;
+
+    public final int maxWorldHeight = tileSize * maxWorldRow;
+    public final int maxWorldWidth = tileSize * maxWorldCol;
+
 
     Thread gameThread;
     KeyHandler keyHandler;
 
     TileManager tileManager;
-    Player player;
+    public Player player;
 
     public GamePanel() {
         this.setPreferredSize(new Dimension(screenWidth, screenHeight));
@@ -62,6 +72,21 @@ public class GamePanel extends JPanel implements Runnable{
             }
         }
     }
+    public int[] translateToScreenView(int worldX, int worldY) {
+        return new int[]{
+                worldX - this.player.worldX + this.player.screenX,
+             worldY - this.player.worldY + this.player.screenY,
+        };
+    }
+
+    public boolean inPlayerView(int worldX, int worldY) {
+        int viewWidth = this.screenWidth/2;
+        int viewHeight = this.screenHeight/2;
+        boolean inH = viewWidth > (abs(worldX - this.player.worldX) - tileSize);
+        boolean inV =  viewHeight > (abs(worldY - this.player.worldY) - tileSize);
+        return inH && inV;
+    }
+
 
     public void update(){
         this.player.update();

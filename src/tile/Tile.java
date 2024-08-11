@@ -11,8 +11,6 @@ public class Tile {
     public int x, y;
     public int size;
 
-
-
     public Tile(String type, int x, int y, int size){
         this.x = x;
         this.y = y;
@@ -24,8 +22,8 @@ public class Tile {
         }
     }
 
-    public void draw(Graphics2D graphics2D){
-        graphics2D.drawImage(this.image, this.x*this.size, this.y*this.size, size, size, null);
+    public void draw(Graphics2D graphics2D, int screenX, int screenY){
+        graphics2D.drawImage(this.image, screenX , screenY , size, size, null);
     }
 
 }
