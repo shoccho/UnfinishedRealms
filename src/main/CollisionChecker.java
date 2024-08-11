@@ -10,24 +10,24 @@ public class CollisionChecker {
     }
 
     public void checkTile(Entity entity) {
-        int worldX = entity.worldX + entity.solidArea.x;
-        int worldY = entity.worldY + entity.solidArea.y;
+        int worldX = entity.worldX + entity.collisionBox.x;
+        int worldY = entity.worldY + entity.collisionBox.y;
         int speed = entity.speed;
-        int width = entity.solidArea.width;
-        int height = entity.solidArea.height;
+        int width = entity.collisionBox.width;
+        int height = entity.collisionBox.height;
 
         switch (entity.direction) {
             case "up":
-                entity.collisionOn = checkCollision(worldX, worldY - speed, worldX + width, worldY - speed);
+                entity.hittable = checkCollision(worldX, worldY - speed, worldX + width, worldY - speed);
                 break;
             case "down":
-                entity.collisionOn = checkCollision(worldX, worldY + height + speed, worldX + width, worldY + height + speed);
+                entity.hittable = checkCollision(worldX, worldY + height + speed, worldX + width, worldY + height + speed);
                 break;
             case "left":
-                entity.collisionOn = checkCollision(worldX - speed, worldY, worldX - speed, worldY + height);
+                entity.hittable = checkCollision(worldX - speed, worldY, worldX - speed, worldY + height);
                 break;
             case "right":
-                entity.collisionOn = checkCollision(worldX + width + speed, worldY, worldX + width + speed, worldY + height);
+                entity.hittable = checkCollision(worldX + width + speed, worldY, worldX + width + speed, worldY + height);
                 break;
         }
     }

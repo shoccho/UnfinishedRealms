@@ -19,7 +19,7 @@ public class Player extends Entity{
         this.keyHandler = keyHandler;
         this.screenX = game.screenWidth/2 - (game.tileSize/2);
         this.screenY = game.screenHeight/2 - (game.tileSize/2);
-        solidArea = new Rectangle(10, 16, 30,32);
+        collisionBox = new Rectangle(10, 16, 30,32);
         reset();
         loadImages();
     }
@@ -50,9 +50,9 @@ public class Player extends Entity{
         if(keyHandler.right){
             direction = "right";
         }
-        this.collisionOn = false;
+        this.hittable = false;
         game.collisionChecker.checkTile(this);
-        if(!this.collisionOn) {
+        if(!this.hittable) {
             switch (direction) {
                 case "up":
                     this.worldY -= this.speed;

@@ -35,7 +35,7 @@ public class Game extends JPanel implements Runnable{
     Thread gameThread;
     KeyHandler keyHandler;
 
-    public TileManager tileManager;
+    TileManager tileManager;
     public Player player;
 
     public Game() {
@@ -80,7 +80,7 @@ public class Game extends JPanel implements Runnable{
         };
     }
 
-    public boolean inPlayerView(int worldX, int worldY) {
+    public boolean isInPlayerView(int worldX, int worldY) {
         int viewWidth = this.screenWidth/2;
         int viewHeight = this.screenHeight/2;
         boolean inH = viewWidth > (abs(worldX - this.player.worldX) - tileSize);

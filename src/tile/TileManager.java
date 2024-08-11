@@ -8,8 +8,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 
-import static java.lang.Math.abs;
-
 public class TileManager {
     Game game;
     int[][] map;
@@ -59,8 +57,8 @@ public class TileManager {
             tiles[i] = new Tile(tileTypes[this.map[x][y]], x, y, game.tileSize);
         }
     }
-    public Tile getTile(int index){
 
+    public Tile getTile(int index){
         return this.tiles[index];
     }
 
@@ -68,9 +66,9 @@ public class TileManager {
         for (int i = 0; i < tiles.length; i++) {
             int worldX = tiles[i].x * game.tileSize;
             int worldY = tiles[i].y * game.tileSize;
-            if(game.inPlayerView(worldX, worldY)){
+            if(game.isInPlayerView(worldX, worldY)){
                 int[] position = game.translateToScreenView(worldX , worldY);
-                tiles[i].draw(graphics2D, position[0], position[1] );
+                tiles[i].draw(graphics2D, position[0], position[1]);
             }
       }
     }
