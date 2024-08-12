@@ -1,6 +1,8 @@
 package main;
 
 import entity.Player;
+import item.Item;
+import item.ItemManager;
 import tile.TileManager;
 
 import java.awt.*;
@@ -17,8 +19,8 @@ public class Game extends JPanel implements Runnable{
 
     public final int tileSize = originalTileSize * scale;
 
-    public final int maxScreenCol = 20;
-    public final int maxScreenRow = 20;
+    public final int maxScreenCol = 16;
+    public final int maxScreenRow = 16;
 
     public int screenWidth = tileSize * maxScreenCol;
     public int screenHeight = tileSize * maxScreenRow;
@@ -26,8 +28,10 @@ public class Game extends JPanel implements Runnable{
 
     //world settings
     public final int maxWorldCol = 50;
-    public final int maxWorldRow = 50;
+    public final int maxWorldRow = 30;
 
+    ItemManager itemManager;
+    ItemAdder itemAdder;
     public final int maxWorldHeight = tileSize * maxWorldRow;
     public final int maxWorldWidth = tileSize * maxWorldCol;
 //TODO OOPs
@@ -48,6 +52,8 @@ public class Game extends JPanel implements Runnable{
         this.tileManager = new TileManager(this);
         this.player = new Player(this, this.keyHandler);
         this.collisionChecker = new CollisionChecker(this);
+        this.itemManager = new ItemManager(this);
+        this.itemAdder = new ItemAdder(this);
     }
 
     public void startGameThread() {
@@ -91,9 +97,11 @@ public class Game extends JPanel implements Runnable{
     public boolean isCollisionOn(int worldX, int worldY){
         int x = worldX/this.tileSize;
         int y = worldY/this.tileSize;
-        int index = (y*maxWorldRow)+x;
-        if(index < 0) return true;
-        return this.tileManager.getTile(index).collision;
+        if(x < 0 || x >this.maxWorldCol-1 || y < 0 || y > maxWorldRow -1 ) return false;
+        return this.tileManager.getTile(y, x).collision;
+    }
+    public Item getItem(int worldX, int worldY){
+        return this.itemManager.getItem(worldX, worldY);
     }
 
     public void update(){
@@ -103,7 +111,8 @@ public class Game extends JPanel implements Runnable{
     public void paintComponent(Graphics g){
         super.paintComponent(g);
         Graphics2D g2 = (Graphics2D) g;
-        tileManager.draw(g2);
+        this.tileManager.draw(g2);
+        this.itemManager.draw(g2);
         this.player.draw(g2);
         g2.dispose();
     }

@@ -1,6 +1,7 @@
 package main;
 
 import entity.Entity;
+import item.Item;
 
 public class CollisionChecker {
     Game game;
@@ -33,7 +34,17 @@ public class CollisionChecker {
     }
 
     private boolean checkCollision(int x1, int y1, int x2, int y2) {
-        return (this.game.isCollisionOn(x1, y1) || this.game.isCollisionOn(x2, y2));
+        //todo: pls! learn some shit! wtf is this logic
+        boolean collision = (this.game.isCollisionOn(x1, y1) || this.game.isCollisionOn(x2, y2));
+        Item item = this.game.getItem(x1, y1);
+        if (item != null){
+            collision |= item.onInteract(this.game.player);
+        }
+        Item item2 = this.game.getItem(x2, y2);
+        if (item2 != null){
+            collision |= item2.onInteract(this.game.player);
+        }
+        return  collision;
     }
 }
 

@@ -1,5 +1,6 @@
 package entity;
 
+import item.Item;
 import main.Game;
 import main.KeyHandler;
 
@@ -14,6 +15,10 @@ public class Player extends Entity{
     public final int screenX;
     public final int screenY;
 
+    //game specific
+    private boolean hasWaterBoot;
+    public int keys;
+
     public Player(Game game, KeyHandler keyHandler){
         this.game = game;
         this.keyHandler = keyHandler;
@@ -25,12 +30,13 @@ public class Player extends Entity{
     }
 
     public void reset(){
-        this.worldX = game.tileSize * 25;
-        this.worldY = game.tileSize * 25;
+        this.worldX = game.tileSize * 3;
+        this.worldY = game.tileSize * 15;
         this.speed = 5;
         this.direction = "down";
         this.spriteNumber = 1;
         this.frameCounter = 0;
+        this.keys = 0;
     }
 
     public void update(){
@@ -75,6 +81,7 @@ public class Player extends Entity{
             this.spriteNumber = this.spriteNumber % 2 + 1;
         }
     }
+
     public void draw(Graphics2D graphics2D){
         graphics2D.drawImage(getImage(), this.screenX, this.screenY, game.tileSize, game.tileSize, null);
     }

@@ -11,16 +11,16 @@ import java.io.InputStreamReader;
 public class TileManager {
     Game game;
     int[][] map;
-    Tile[] tiles;
+    Tile[][] tiles;
     String[] tileTypes;
 
     public TileManager(Game game) {
         this.game = game;
         tileTypes = new String[]{"grass", "water", "earth", "sand", "wall", "tree"};
         int totalTiles = game.maxWorldCol * game.maxWorldRow;
-        this.tiles = new Tile[totalTiles];
-        this.map = new int[game.maxWorldCol][game.maxWorldRow];
-        loadMap("/maps/map02.txt");
+        this.tiles = new Tile[game.maxWorldRow][game.maxWorldCol];
+        this.map = new int[game.maxWorldRow][game.maxWorldCol];
+        loadMap("/maps/map03.txt");
         loadTiles();
     }
 
@@ -38,7 +38,7 @@ public class TileManager {
                 String[] numbers = line.split(" ");
                 while (col < game.maxWorldCol) {
                     int num = Integer.parseInt(numbers[col]);
-                    map[col][row] = num;
+                    map[row][col] = num;
                     col++;
                 }
                 row++;
@@ -52,24 +52,27 @@ public class TileManager {
 
     public void loadTiles() {
         for (int i = 0; i < tiles.length; i++) {
-            int x = i % game.maxWorldCol;
-            int y = i / game.maxWorldRow;
-            tiles[i] = new Tile(tileTypes[this.map[x][y]], x, y, game.tileSize);
+            for (int j = 0; j < tiles[i].length; j++) {
+                tiles[i][j] = new Tile(tileTypes[this.map[i][j]], j, i, game.tileSize);
+            }
         }
     }
 
-    public Tile getTile(int index){
-        return this.tiles[index];
+    public Tile getTile(int row, int col) {
+        return this.tiles[row][col];
     }
 
     public void draw(Graphics2D graphics2D) {
+
         for (int i = 0; i < tiles.length; i++) {
-            int worldX = tiles[i].x * game.tileSize;
-            int worldY = tiles[i].y * game.tileSize;
-            if(game.isInPlayerView(worldX, worldY)){
-                int[] position = game.translateToScreenView(worldX , worldY);
-                tiles[i].draw(graphics2D, position[0], position[1]);
+            for (int j = 0; j < tiles[i].length; j++) {
+                int worldX = tiles[i][j].x * game.tileSize;
+                int worldY = tiles[i][j].y * game.tileSize;
+                if (game.isInPlayerView(worldX, worldY)) {
+                    int[] position = game.translateToScreenView(worldX, worldY);
+                    tiles[i][j].draw(graphics2D, position[0], position[1]);
+                }
             }
-      }
+        }
     }
 }
