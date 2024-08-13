@@ -24,7 +24,7 @@ public class Player extends Entity{
         this.keyHandler = keyHandler;
         this.screenX = game.screenWidth/2 - (game.tileSize/2);
         this.screenY = game.screenHeight/2 - (game.tileSize/2);
-        collisionBox = new Rectangle(10, 16, 30,32);
+        collisionBox = new Rectangle(10, 16, 24,24);
         reset();
         loadImages();
     }
