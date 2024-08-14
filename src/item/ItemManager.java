@@ -15,13 +15,17 @@ public class ItemManager {
     }
 
     public void addItem(int tileX, int tileY, String itemName) {
-        Item item = new Item(tileX, tileY, game.tileSize, itemName, false);
+        Item item = new Item(tileX, tileY, game.tileSize, itemName);
         String key = tileX + " " + tileY;
         items.put(key, item);
     }
 
+    String getItemKey(int worldX, int worldY){
+        return worldX/this.game.tileSize + " " + worldY/this.game.tileSize;
+    }
+
     public Item getItem(int worldX, int worldY) {
-        String key = worldX/this.game.tileSize + " " + worldY/this.game.tileSize;
+        String key = getItemKey(worldX, worldY);
         return items.get(key);
     }
 
@@ -31,5 +35,9 @@ public class ItemManager {
             int[] screenPos = this.game.translateToScreenView(item.x * this.game.tileSize, item.y * this.game.tileSize);
             item.draw(graphics2D, screenPos[0], screenPos[1]);
         }
+    }
+
+    public void remove(int worldX, int worldY) {
+        this.items.remove(getItemKey(worldX, worldY));
     }
 }

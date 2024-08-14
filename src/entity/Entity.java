@@ -11,7 +11,7 @@ public class Entity {
     public String direction;
 
     public Rectangle collisionBox;
-    public boolean hittable = false;
+    public boolean blocked = false;
 
     //sprite changing
     //TODO: Improve this shit

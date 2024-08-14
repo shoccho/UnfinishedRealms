@@ -1,6 +1,5 @@
 package entity;
 
-import item.Item;
 import main.Game;
 import main.KeyHandler;
 
@@ -14,7 +13,7 @@ public class Player extends Entity{
     KeyHandler keyHandler;
     public final int screenX;
     public final int screenY;
-
+    public boolean blockedByItem = false;
     //game specific
     private boolean hasWaterBoot;
     public int keys;
@@ -56,9 +55,11 @@ public class Player extends Entity{
         if(keyHandler.right){
             direction = "right";
         }
-        this.hittable = false;
-        game.collisionChecker.checkTile(this);
-        if(!this.hittable) {
+        this.blockedByItem = false;
+        this.blocked = false;
+        this.blocked = game.checkTile(this);
+
+        if(!this.blocked && ! this.blockedByItem) {
             switch (direction) {
                 case "up":
                     this.worldY -= this.speed;

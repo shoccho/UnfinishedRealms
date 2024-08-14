@@ -1,8 +1,10 @@
 package main;
 
+import entity.Entity;
 import entity.Player;
 import item.Item;
 import item.ItemManager;
+import sound.SoundManager;
 import tile.TileManager;
 
 import java.awt.*;
@@ -31,15 +33,17 @@ public class Game extends JPanel implements Runnable{
     public final int maxWorldRow = 30;
 
     ItemManager itemManager;
-    ItemAdder itemAdder;
-    public final int maxWorldHeight = tileSize * maxWorldRow;
-    public final int maxWorldWidth = tileSize * maxWorldCol;
-//TODO OOPs
-    public CollisionChecker collisionChecker;
-    Thread gameThread;
-    KeyHandler keyHandler;
-
     TileManager tileManager;
+    SoundManager soundManager;
+
+    ItemAdder itemAdder;
+    KeyHandler keyHandler;
+    CollisionChecker collisionChecker;
+
+    //TODO OOPs
+
+    Thread gameThread;
+
     public Player player;
 
     public Game() {
@@ -54,6 +58,7 @@ public class Game extends JPanel implements Runnable{
         this.collisionChecker = new CollisionChecker(this);
         this.itemManager = new ItemManager(this);
         this.itemAdder = new ItemAdder(this);
+        this.soundManager = new SoundManager(this); //todo : remove param if not needed
     }
 
     public void startGameThread() {
@@ -104,6 +109,25 @@ public class Game extends JPanel implements Runnable{
         return this.itemManager.getItem(worldX, worldY);
     }
 
+    public void interactWithItem(int worldX, int worldY){
+        Item item = getItem(worldX, worldY);
+        if(item == null)return;
+        if(item.name == "chest"){
+            this.itemManager.remove(worldX, worldY);
+            this.player.keys++;
+            this.playSound(item.name);
+        }else if(item.name == "door") {
+            if(this.player.keys > 0){
+                this.player.keys--;
+                this.itemManager.remove(worldX, worldY);
+                this.playSound(item.name);
+            }else{
+                this.player.blockedByItem = true;
+            }
+        }
+
+    }
+
     public void update(){
         this.player.update();
     }
@@ -115,5 +139,13 @@ public class Game extends JPanel implements Runnable{
         this.itemManager.draw(g2);
         this.player.draw(g2);
         g2.dispose();
+    }
+
+    public boolean checkTile(Entity entity){
+        return this.collisionChecker.checkTile(entity);
+    }
+
+    public void playSound(String name){
+        soundManager.play(name);
     }
 }

@@ -14,10 +14,10 @@ public class Item {
     int size;
     int x;
     int y;
-    String name;
+    public String name;
     boolean removed = false; //todo: pls make it better
 
-    public Item(int tileX, int tileY, int size, String name, boolean hittable){
+    public Item(int tileX, int tileY, int size, String name){
         this.x = tileX;
         this.y = tileY;
         this.size = size;
@@ -27,20 +27,6 @@ public class Item {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-    }
-
-    public boolean onInteract(Player player){
-        if(this.removed) return false;
-
-        if(Objects.equals(this.name, "chest")) {
-            player.keys++;
-            this.removed = true;
-        }else if(Objects.equals(this.name, "door")) {
-            if(player.keys == 0) return true;
-            this.removed = true;
-            player.keys--;
-        }
-        return false;
     }
 
     public void draw(Graphics2D graphics2D, int screenX, int screenY){

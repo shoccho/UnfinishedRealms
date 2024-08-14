@@ -1,5 +1,6 @@
 package main;
 
+import item.InteractionHandler;
 import item.ItemManager;
 
 public class ItemAdder {
@@ -9,10 +10,13 @@ public class ItemAdder {
     public ItemAdder(Game game){
         this.game = game;
         this.itemManager = game.itemManager;
-        addSomeChest();
+        addSomeItems();
     }
 
-    public void addSomeChest(){
+
+    public void addSomeItems(){
+
+
         this.itemManager.addItem(9,15, "chest");
         this.itemManager.addItem(21,3, "chest");
         this.itemManager.addItem(12,23, "chest");
