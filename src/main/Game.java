@@ -39,7 +39,7 @@ public class Game extends JPanel implements Runnable{
     ItemAdder itemAdder;
     KeyHandler keyHandler;
     CollisionChecker collisionChecker;
-
+    UI ui;
     //TODO OOPs
 
     Thread gameThread;
@@ -59,6 +59,7 @@ public class Game extends JPanel implements Runnable{
         this.itemManager = new ItemManager(this);
         this.itemAdder = new ItemAdder(this);
         this.soundManager = new SoundManager(this); //todo : remove param if not needed
+        this.ui = new UI(this);
     }
 
     public void startGameThread() {
@@ -116,6 +117,8 @@ public class Game extends JPanel implements Runnable{
             this.itemManager.remove(worldX, worldY);
             this.player.keys++;
             this.playSound(item.name);
+            this.ui.setMessage("You got a key!");
+            this.ui.setShowMessage(true);
         }else if(item.name == "door") {
             if(this.player.keys > 0){
                 this.player.keys--;
@@ -123,6 +126,9 @@ public class Game extends JPanel implements Runnable{
                 this.playSound(item.name);
             }else{
                 this.player.blockedByItem = true;
+
+                this.ui.setMessage("You need a key!");
+                this.ui.setShowMessage(true);
             }
         }
 
@@ -138,6 +144,7 @@ public class Game extends JPanel implements Runnable{
         this.tileManager.draw(g2);
         this.itemManager.draw(g2);
         this.player.draw(g2);
+        this.ui.draw(g2);
         g2.dispose();
     }
 
